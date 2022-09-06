@@ -19,6 +19,18 @@ $namespace = 'App\\Http\\Controllers\\';
 Route::namespace($namespace . 'Main')->group(function () {
     Route::get('/', 'IndexController')->name('main.index');
 });
+Route::namespace($namespace . 'Post')
+    ->prefix('posts')
+    ->group(function () {
+    Route::get('/', 'IndexController')->name('post.index');
+    Route::get('/{post}', 'ShowController')->name('post.show');
+
+    Route::namespace('Comment')
+        ->prefix('{post}/comments')
+        ->group(function () {
+            Route::post('/', 'StoreController')->name('post.comment.store');
+        });
+});
 
 Route::namespace($namespace . 'Personal')
     ->middleware(['auth', 'verified'])

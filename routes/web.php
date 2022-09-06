@@ -21,6 +21,7 @@ Route::namespace($namespace . 'Main')->group(function () {
 });
 
 Route::namespace($namespace . 'Admin')
+    ->middleware(['auth', 'admin'])
     ->prefix('admin')
     ->group(function () {
         Route::namespace('Main')->group(function () {

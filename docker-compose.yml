@@ -12,6 +12,8 @@ services:
             - fpm
         volumes:
             - ./:/var/www/html
+            - ./public:/var/www/html/public:ro
+            - ./storage/app:/var/www/html/storage/app:ro
         container_name: blog_nginx
         restart: unless-stopped
 

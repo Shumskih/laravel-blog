@@ -35,6 +35,7 @@
                                     name="title"
                                     class="form-control"
                                     placeholder="Название категории"
+                                    autofocus
                                 >
                                 @error('title')
                                     <div class="text-danger">Это поле необходимо для заполнения</div>

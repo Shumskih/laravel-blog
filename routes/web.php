@@ -21,7 +21,7 @@ Route::namespace($namespace . 'Main')->group(function () {
 });
 
 Route::namespace($namespace . 'Admin')
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'admin', 'verified'])
     ->prefix('admin')
     ->group(function () {
         Route::namespace('Main')->group(function () {
@@ -77,4 +77,4 @@ Route::namespace($namespace . 'Admin')
             });
     });
 
-Auth::routes();
+Auth::routes(['verify' => true]);

@@ -20,12 +20,34 @@ Route::namespace($namespace . 'Main')->group(function () {
     Route::get('/', 'IndexController');
 });
 
+Route::namespace($namespace . 'Personal')
+    ->middleware(['auth', 'verified'])
+    ->prefix('personal')
+    ->group(function () {
+        Route::namespace('Main')
+            ->prefix('main')
+            ->group(function () {
+            Route::get('/', 'IndexController')->name('personal.main.index');
+        });
+        Route::namespace('Liked')
+            ->prefix('liked')
+            ->group(function () {
+            Route::get('/', 'IndexController')->name('personal.liked.index');
+            Route::delete('/{post}', 'DeleteController')->name('personal.liked.delete');
+        });
+        Route::namespace('Comment')
+            ->prefix('comment')
+            ->group(function () {
+            Route::get('/', 'IndexController')->name('personal.comment.index');
+        });
+    });
+
 Route::namespace($namespace . 'Admin')
     ->middleware(['auth', 'admin', 'verified'])
     ->prefix('admin')
     ->group(function () {
         Route::namespace('Main')->group(function () {
-            Route::get('/', 'IndexController');
+            Route::get('/', 'IndexController')->name('admin.main.index');
         });
 
         Route::namespace('Post')

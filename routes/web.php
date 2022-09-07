@@ -22,15 +22,33 @@ Route::namespace($namespace . 'Main')->group(function () {
 Route::namespace($namespace . 'Post')
     ->prefix('posts')
     ->group(function () {
-    Route::get('/', 'IndexController')->name('post.index');
-    Route::get('/{post}', 'ShowController')->name('post.show');
+        Route::get('/', 'IndexController')->name('post.index');
+        Route::get('/{post}', 'ShowController')->name('post.show');
 
-    Route::namespace('Comment')
-        ->prefix('{post}/comments')
-        ->group(function () {
-            Route::post('/', 'StoreController')->name('post.comment.store');
-        });
-});
+        Route::namespace('Comment')
+            ->prefix('{post}/comments')
+            ->group(function () {
+                Route::post('/', 'StoreController')->name('post.comment.store');
+            });
+
+        Route::namespace('Like')
+            ->prefix('{post}/likes')
+            ->group(function () {
+                Route::post('/', 'StoreController')->name('post.like.store');
+            });
+    });
+
+Route::namespace($namespace . 'Category')
+    ->prefix('categories')
+    ->group(function () {
+        Route::get('/', 'IndexController')->name('category.index');
+
+        Route::namespace('Post')
+            ->prefix('{category}/posts')
+            ->group(function () {
+                Route::get('/', 'IndexController')->name('category.post.index');
+            });
+    });
 
 Route::namespace($namespace . 'Personal')
     ->middleware(['auth', 'verified'])
@@ -39,22 +57,22 @@ Route::namespace($namespace . 'Personal')
         Route::namespace('Main')
             ->prefix('main')
             ->group(function () {
-            Route::get('/', 'IndexController')->name('personal.main.index');
-        });
+                Route::get('/', 'IndexController')->name('personal.main.index');
+            });
         Route::namespace('Liked')
             ->prefix('liked')
             ->group(function () {
-            Route::get('/', 'IndexController')->name('personal.liked.index');
-            Route::delete('/{post}', 'DeleteController')->name('personal.liked.delete');
-        });
+                Route::get('/', 'IndexController')->name('personal.liked.index');
+                Route::delete('/{post}', 'DeleteController')->name('personal.liked.delete');
+            });
         Route::namespace('Comment')
             ->prefix('comment')
             ->group(function () {
-            Route::get('/', 'IndexController')->name('personal.comment.index');
-            Route::get('/{comment}/edit', 'EditController')->name('personal.comment.edit');
-            Route::patch('/{comment}', 'UpdateController')->name('personal.comment.update');
-            Route::delete('/{comment}', 'DeleteController')->name('personal.comment.delete');
-        });
+                Route::get('/', 'IndexController')->name('personal.comment.index');
+                Route::get('/{comment}/edit', 'EditController')->name('personal.comment.edit');
+                Route::patch('/{comment}', 'UpdateController')->name('personal.comment.update');
+                Route::delete('/{comment}', 'DeleteController')->name('personal.comment.delete');
+            });
     });
 
 Route::namespace($namespace . 'Admin')
